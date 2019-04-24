@@ -65,3 +65,11 @@ clean:
 env_test: util/env_test.o $(LIBOBJECTS) $(TESTHARNESS)
 	$(CC) $(LDFLAGS) util/env_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
 
+arena_test: util/arena_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/arens_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
+
+corruption_test: util/corruption_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/corruption_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
+
+crc32c_test: util/crc32c_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/crc32c_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
