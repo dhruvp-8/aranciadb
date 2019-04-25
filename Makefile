@@ -73,3 +73,7 @@ corruption_test: util/corruption_test.o $(LIBOBJECTS) $(TESTHARNESS)
 
 crc32c_test: util/crc32c_test.o $(LIBOBJECTS) $(TESTHARNESS)
 	$(CC) $(LDFLAGS) util/crc32c_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
+
+db_test: util/db_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/db_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
+ 

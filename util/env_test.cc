@@ -41,7 +41,7 @@ TEST(EnvPosixTest, RunMany) {
     CB(int* p, int i) : last_id_ptr(p), id(i) { }
 
     static void Run(void* v) {
-      CB* cb = reinterpret_cast<CB*>(v);
+      CB* cb = reinterpret_cast<CB*>(v); // cb and v are interconvertable pointers 
       ASSERT_EQ(cb->id-1, *cb->last_id_ptr);
       *cb->last_id_ptr = cb->id;
     }
