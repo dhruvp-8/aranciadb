@@ -46,5 +46,9 @@ void CondVar::SignalAll() {
   PthreadCall("broadcast", pthread_cond_broadcast(&cv_));
 }
 
+void checkPVar::StartTest() {
+  PthreadCall("start", pthread_cond_start(&cv_));	
+}
+
 }
 }

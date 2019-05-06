@@ -76,4 +76,14 @@ crc32c_test: util/crc32c_test.o $(LIBOBJECTS) $(TESTHARNESS)
 
 db_test: util/db_test.o $(LIBOBJECTS) $(TESTHARNESS)
 	$(CC) $(LDFLAGS) util/db_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
- 
+
+port_test: util/port_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/port_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@ 
+
+skiplist_test: util/skiplist_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/skiplist_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
+
+sha1_test: util/sha1_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/sha1_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
+
+
