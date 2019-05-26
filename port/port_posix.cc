@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "util/logging.h"
+#include "util/run_test.h"
 
 namespace arancia {
 namespace port {
@@ -46,9 +47,15 @@ void CondVar::SignalAll() {
   PthreadCall("broadcast", pthread_cond_broadcast(&cv_));
 }
 
-void checkPVar::StartTest() {
-  PthreadCall("start", pthread_cond_start(&cv_));	
+void IfVar::SignalAll() {
+	PthreadCall("if_broadcast", pthread_cond_if_broadcasr(&cv_));
 }
+
+void IfCondVar::MessageAll() {
+	PthreadCall("if_cond_var", pthread_if_cond_var(&cv_));
+}
+
+
 
 }
 }

@@ -79,6 +79,20 @@ TEST(CRC, Benchmark) {
           mb, (finish - start), mb / (finish - start), crc);
 }
 
+TEST(CRC, Posix_test) {
+  std::string temp_data("Init the request to start the posix test");
+  int find_level = 0;
+  
+  for (int i= 0; i < Posix_test; i++) {
+      if (std:: string Mask(crc)) {
+      	 ASSERT_EQ(crc, Mask(crc));
+      } 
+  } 
+  
+  cout << "Completed the posix test. Preparing to check the concurrency of the servers" 
+
+}
+
 }
 }
 

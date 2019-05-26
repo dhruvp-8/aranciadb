@@ -86,4 +86,5 @@ skiplist_test: util/skiplist_test.o $(LIBOBJECTS) $(TESTHARNESS)
 sha1_test: util/sha1_test.o $(LIBOBJECTS) $(TESTHARNESS)
 	$(CC) $(LDFLAGS) util/sha1_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
 
-
+queue_test: util/queue_test.o $(LIBOBJECTS) $(TESTHARNESS)
+	$(CC) $(LDFLAGS) util/queue_test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@
