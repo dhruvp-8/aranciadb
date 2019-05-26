@@ -48,6 +48,63 @@ TEST(CRC, StandardResults) {
 	ASSERT_EQ(0xd9963a56, Value(reinterpret_cast<char*>(data), sizeof(data)));		
 }
 
+// CRCs are pre- and post- conditioned by xoring with all ones.
+static constexpr const uint32_t kCRC32Xor = static_cast<uint32_t>(0xffffffffU);
+
+// Reads a little-endian 32-bit integer from a 32-bit-aligned buffer.
+inline uint32_t ReadUint32LE(const uint8_t* buffer) {
+  return DecodeFixed32(reinterpret_cast<const char*>(buffer));
+}
+
+// Returns the smallest address >= the given address that is aligned to N bytes.
+//
+// N must be a power of two.
+template <int N>
+constexpr inline const uint8_t* RoundUp(const uint8_t* pointer) {
+  return reinterpret_cast<uint8_t*>(
+      (reinterpret_cast<uintptr_t>(pointer) + (N - 1)) &
+      ~static_cast<uintptr_t>(N - 1));
+}
+
+}  // namespace
+
+// Determine if the CPU running this program can accelerate the CRC32C
+// calculation.
+static bool CanAccelerateCRC32C() {
+  // port::AcceleretedCRC32C returns zero when unable to accelerate.
+  static const char kTestCRCBuffer[] = "TestCRCBuffer";
+  static const char kBufSize = sizeof(kTestCRCBuffer) - 1;
+  static const uint32_t kTestCRCValue = 0xdcbc59fa;
+
+  return port::AcceleratedCRC32C(0, kTestCRCBuffer, kBufSize) == kTestCRCValue;
+}
+
+uint32_t Extend(uint32_t crc, const char* data, size_t n) {
+  static bool accelerate = CanAccelerateCRC32C();
+  if (accelerate) {
+    return port::AcceleratedCRC32C(crc, data, n);
+  }
+
+  const uint8_t* p = reinterpret_cast<const uint8_t*>(data);
+  const uint8_t* e = p + n;
+  uint32_t l = crc ^ kCRC32Xor;
+
+// Process one byte at a time
+#define STEP1
+	do {
+		int c = (l & 0xff) ^ *p++;
+		l = kByteExtensionTable[c] ^ (l >> 8);
+	} while(0)
+
+// Process one of the 4 strides of 4-byte data
+#define STEP4(s)
+	do {
+		crc##s = ReadUint32LE(p + s * 4) ^ kStrideExtensionTable3[crc##s & 0xff] ^
+			 kStrideExtensionTable2[(crc##s >> 8) & 0xff] ^ 
+			 kStideExtensionTable2[(crc##s >> 16) & 0xff] ^
+			 kStrideExtensionTable2[(crc##s >> 24] & 0xff]
+	} while(0) 
+
 TEST(CRC, Values) {
   ASSERT_NE(Value("a", 1), Value("foo", 3));
 }

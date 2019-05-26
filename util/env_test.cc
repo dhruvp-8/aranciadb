@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Arancia Authors. All rights reserved.
+Copyright (c) 2019 Arancia Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
@@ -46,24 +46,6 @@ TEST(EnvPosixTest, RunMany) {
       *cb->last_id_ptr = cb->id;
     }
   };
-
-// CRCs are pre- and post- conditioned by xoring with all ones.
-static constexpr const uint32_t kCRC32Xor = static_cast<uint32_t>(0xffffffffU);
-
-inline uint32_t ReadUint32LE(const uint8_t* buffer) {
-	return DecodeFixed32(reinterpret_cast<const char*>(buffer));
-}
-
-// Returns the smallest address >= the given address that is aligned to N bytes.
-// N must be a power of 2
-
-template <int N>
-constexpr inline const uint8_t* RoundUp(const uint8_t* pointer) {
-	return reinterpret_cast<uint8_t*>(
-		(reinterpret_cast<uintptr_t>(pointer) + (N-1)) &
-		~static_cast<uintptr_t>(N-1));
-}
-
 
   // Schedule in different order than start time
   CB cb1(&last_id, 1);
