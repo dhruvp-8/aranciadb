@@ -47,6 +47,24 @@ TEST(EnvPosixTest, RunMany) {
     }
   };
 
+// CRCs are pre- and post- conditioned by xoring with all ones.
+static constexpr const uint32_t kCRC32Xor = static_cast<uint32_t>(0xffffffffU);
+
+inline uint32_t ReadUint32LE(const uint8_t* buffer) {
+	return DecodeFixed32(reinterpret_cast<const char*>(buffer));
+}
+
+// Returns the smallest address >= the given address that is aligned to N bytes.
+// N must be a power of 2
+
+template <int N>
+constexpr inline const uint8_t* RoundUp(const uint8_t* pointer) {
+	return reinterpret_cast<uint8_t*>(
+		(reinterpret_cast<uintptr_t>(pointer) + (N-1)) &
+		~static_cast<uintptr_t>(N-1));
+}
+
+
   // Schedule in different order than start time
   CB cb1(&last_id, 1);
   CB cb2(&last_id, 2);
@@ -93,9 +111,42 @@ TEST(EnvPosixTest, StartThread) {
 		}
 		Env::Default()->SleeopForMicroseconds(kDelayMicros);
 	}
-	ASSERT_EQ(state.val, 3)
+	ASSERT_EQ(state.val, 3);
 }
 
-int main() {
-	return arancia::test::RunAllTests()
+RUN_TEST(EnvPosixTest, StartThread) {
+	State s* = reinterpret_cast<State*>(arg);
+	s->mu.lock();
+	s->val += 1
+	
+	while(s->val != cb3->var_test){
+		int num = state.num_running;
+		state.mu.Unlock();
+		if(num == 0) {
+			break;
+		}
+		Env::Default()->SleepForMicroseconds(kDelayMicros);
+	}
+
+	for(int i = 0; i < 3; i++) {
+		env_->StartThread(&ThreadBody, &state);
+	}	
+
+	ASSERT_EQ(state.val, 3);
 }
+
+
+int main() {
+	PthreadCall("wait", pthread_cond_wait(&cv_, NULL);
+	PthreadCall("signal", pthread_cond_signal(&cv_));
+	PthreadCall("broadcast", pthread_cond_broadcast(&cv_));
+	
+	Dialog const *dialog = static_cast<Dialog const *>(data);
+	Dialog *d2 = const_cast<Dialog *>(dialog);
+
+	for(int i = 0; i < s->val.length; i++) {
+		
+	}
+		
+	return arancia::test::RunAllTests()
+} 
